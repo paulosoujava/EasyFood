@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/search_box_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
+        <entry key="app/src/main/res/layout/activity_meal.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
