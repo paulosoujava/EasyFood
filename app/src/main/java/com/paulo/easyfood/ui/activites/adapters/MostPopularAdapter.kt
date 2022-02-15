@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.paulo.easyfood.data.dto.Meal
 import com.paulo.easyfood.databinding.MostPopularCardBinding
+import javax.inject.Inject
 
-class MostPopularRecyclerAdapter : RecyclerView.Adapter<MostPopularRecyclerAdapter.MostPopularMealViewHolder>(){
+class MostPopularRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<MostPopularRecyclerAdapter.MostPopularMealViewHolder>(){
     private var mealsList: List<Meal> = ArrayList()
     private lateinit var onItemClick: OnItemClick
     private lateinit var onLongItemClick:OnLongItemClick

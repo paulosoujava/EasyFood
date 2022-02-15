@@ -9,6 +9,7 @@ import com.paulo.easyfood.data.dto.MealDB
 import com.paulo.easyfood.data.dto.MealDetail
 import com.paulo.easyfood.data.dto.RandomMealResponse
 import com.paulo.easyfood.data.retrofit.RetrofitInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -16,16 +17,22 @@ import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class DetailsMVVM(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class DetailsMVVM @Inject constructor(
+    application: Application,
+    private val repository: Repository
+) : AndroidViewModel(application) {
+
     private val mutableMealDetail = MutableLiveData<List<MealDetail>>()
     private val mutableMealBottomSheet = MutableLiveData<List<MealDetail>>()
     private  var allMeals: LiveData<List<MealDB>>
-    private  var repository: Repository
+    //private  var repository: Repository
 
     init {
         val mealDao = MealsDatabase.getInstance(application).dao()
-        repository = Repository(mealDao)
+       // repository = Repository(mealDao)
         allMeals = repository.mealList
     }
 

@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.paulo.easyfood.data.dto.Category
 import com.paulo.easyfood.databinding.CategoryCardBinding
 
+
 class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {
     private var categoryList:List<Category> = ArrayList()
     private lateinit var onItemClick: OnItemCategoryClicked

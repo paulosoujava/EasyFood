@@ -6,7 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.paulo.easyfood.data.dto.MealDB
 
-@Database(entities = [MealDB::class], version = 6)
+@Database(
+    entities = [
+        MealDB::class
+    ],
+    version = 6,
+    exportSchema = false
+)
 abstract class MealsDatabase : RoomDatabase() {
     abstract fun dao(): Dao
 
@@ -17,10 +23,10 @@ abstract class MealsDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): MealsDatabase {
             val tempInstance = INSTANCE
-            if(tempInstance != null){
+            if (tempInstance != null) {
                 return tempInstance
             }
-            synchronized(this){
+            synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MealsDatabase::class.java,

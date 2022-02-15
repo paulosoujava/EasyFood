@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -27,27 +28,28 @@ import com.paulo.easyfood.ui.activites.adapters.OnLongItemClick
 import com.paulo.easyfood.util.Const
 import com.paulo.easyfood.viewModel.DetailsMVVM
 import com.paulo.easyfood.viewModel.MainFragMVVM
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private lateinit var meal: RandomMealResponse
-    private lateinit var detailMvvm: DetailsMVVM
     private var randomMealId = ""
+   val detailMvvm: DetailsMVVM by viewModels()
 
-
-
-    private lateinit var myAdapter: CategoriesRecyclerAdapter
-    private lateinit var mostPopularFoodAdapter: MostPopularRecyclerAdapter
+    lateinit var meal: RandomMealResponse
     lateinit var binding: FragmentHomeBinding
+
+    @Inject
+    @Named("CT_ADAPTER")
+    lateinit var myAdapter: CategoriesRecyclerAdapter
+    @Inject lateinit var mostPopularFoodAdapter: MostPopularRecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailMvvm = ViewModelProviders.of(this)[DetailsMVVM::class.java]
+       // detailMvvm = ViewModelProviders.of(this)[DetailsMVVM::class.java]
         binding = FragmentHomeBinding.inflate(layoutInflater)
-
-        myAdapter = CategoriesRecyclerAdapter()
-        mostPopularFoodAdapter = MostPopularRecyclerAdapter()
     }
 
     override fun onCreateView(

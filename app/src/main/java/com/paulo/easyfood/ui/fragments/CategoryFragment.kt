@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,13 +22,13 @@ import com.paulo.easyfood.viewModel.CategoryMVVM
 class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var binding:FragmentCategoryBinding
     private lateinit var myAdapter:CategoriesRecyclerAdapter
-    private lateinit var categoryMvvm:CategoryMVVM
+    private  val categoryMvvm:CategoryMVVM by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myAdapter = CategoriesRecyclerAdapter()
-        categoryMvvm = ViewModelProviders.of(this)[CategoryMVVM::class.java]
+        //categoryMvvm = ViewModelProviders.of(this)[CategoryMVVM::class.java]
     }
 
     override fun onCreateView(

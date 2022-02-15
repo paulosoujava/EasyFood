@@ -1,9 +1,10 @@
 package com.paulo.easyfood.data.db
 import androidx.lifecycle.LiveData
 import com.paulo.easyfood.data.dto.MealDB
+import javax.inject.Inject
 
 
-class Repository(private val mealDao: Dao) {
+class Repository @Inject constructor(private val mealDao: Dao) {
 
     val mealList: LiveData<List<MealDB>> = mealDao.getAllSavedMeals()
 

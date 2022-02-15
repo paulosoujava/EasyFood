@@ -5,6 +5,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -15,22 +17,25 @@ import com.paulo.easyfood.data.dto.MealDetail
 import com.paulo.easyfood.databinding.ActivityMealDetailesBinding
 import com.paulo.easyfood.util.Const
 import com.paulo.easyfood.viewModel.DetailsMVVM
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
 
+@AndroidEntryPoint
 class MealDetailesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMealDetailesBinding
-    private lateinit var detailsMVVM: DetailsMVVM
     private var mealId = ""
     private var mealStr = ""
     private var mealThumb = ""
     private var ytUrl = ""
     private lateinit var dtMeal:MealDetail
 
+   val detailsMVVM: DetailsMVVM by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailsMVVM = ViewModelProviders.of(this)[DetailsMVVM::class.java]
+      //  detailsMVVM = ViewModelProviders.of(this)[DetailsMVVM::class.java]
         binding = ActivityMealDetailesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

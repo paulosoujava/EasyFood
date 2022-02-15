@@ -7,11 +7,15 @@ import androidx.lifecycle.ViewModel
 import com.paulo.easyfood.data.dto.Category
 import com.paulo.easyfood.data.dto.CategoryResponse
 import com.paulo.easyfood.data.retrofit.RetrofitInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class CategoryMVVM : ViewModel() {
+@HiltViewModel
+class CategoryMVVM @Inject constructor(): ViewModel() {
     private var categories: MutableLiveData<List<Category>> = MutableLiveData<List<Category>>()
 
     init {

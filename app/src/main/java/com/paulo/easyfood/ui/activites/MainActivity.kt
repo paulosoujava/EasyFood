@@ -7,7 +7,9 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.paulo.easyfood.R
 import com.paulo.easyfood.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
 
