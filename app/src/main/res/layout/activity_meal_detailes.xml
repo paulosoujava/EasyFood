@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/details_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.MealActivity">
+    android:layout_height="match_parent">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -74,7 +73,7 @@
                     android:text="Category : "
                     android:textColor="@color/g_black"
                     android:textSize="16sp"
-                     />
+                    />
 
                 <TextView
                     android:id="@+id/tv_areaInfo"
@@ -87,7 +86,7 @@
                     android:text="Area : "
                     android:textColor="@color/g_black"
                     android:textSize="14sp"
-                     />
+                    />
 
             </LinearLayout>
 

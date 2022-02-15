@@ -1,11 +1,11 @@
-package com.paulo.easyfood.activity.adapters
+package com.paulo.easyfood.ui.activites.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.paulo.easyfood.data.dto.Category
-import com.paulo.easyfood.databinding.CategoryItemsBinding
+import com.paulo.easyfood.databinding.CategoryCardBinding
 
 class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
     private var categoryList:List<Category> = ArrayList()
@@ -27,10 +27,10 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHol
         this.onItemClick = onItemClick
     }
 
-    class CategoryViewHolder(val binding:CategoryItemsBinding):RecyclerView.ViewHolder(binding.root)
+    class CategoryViewHolder(val binding:CategoryCardBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        return CategoryViewHolder(CategoryItemsBinding.inflate(LayoutInflater.from(parent.context)))
+        return CategoryViewHolder(CategoryCardBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
