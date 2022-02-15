@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         detailMvvm = ViewModelProviders.of(this)[DetailsMVVM::class.java]
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
         myAdapter = CategoriesRecyclerAdapter()
         mostPopularFoodAdapter = MostPopularRecyclerAdapter()
     }
