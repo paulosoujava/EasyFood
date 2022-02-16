@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.paulo.easyfood.R
+import com.paulo.easyfood.data.dto.Meal
 import com.paulo.easyfood.data.dto.MealDB
 import com.paulo.easyfood.data.dto.MealDetail
 import com.paulo.easyfood.databinding.ActivityMealDetailesBinding
@@ -24,88 +25,96 @@ import dagger.hilt.android.HiltAndroidApp
 @AndroidEntryPoint
 class MealDetailesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMealDetailesBinding
-    private var mealId = ""
-    private var mealStr = ""
-    private var mealThumb = ""
-    private var ytUrl = ""
-    private lateinit var dtMeal:MealDetail
+    private var meal: Meal? = null
+    private lateinit var dtMeal: MealDetail
 
-   val detailsMVVM: DetailsMVVM by viewModels()
+    val detailsMVVM: DetailsMVVM by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      //  detailsMVVM = ViewModelProviders.of(this)[DetailsMVVM::class.java]
         binding = ActivityMealDetailesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //retrieving
+        meal = intent.getParcelableExtra(Meal.MEAL_KEY)
+
+        if (meal == null) finish()
+
         showLoading()
 
-        getMealInfoFromIntent()
         setUpViewWithMealInformation()
         setFloatingButtonStatues()
 
-        detailsMVVM.getMealById(mealId)
+        meal?.let { detailsMVVM.getMealById(it.idMeal) }
 
-        detailsMVVM.observeMealDetail().observe(this, object : Observer<List<MealDetail>> {
-            override fun onChanged(t: List<MealDetail>?) {
-                setTextsInViews(t!![0])
-                stopLoading()
-            }
+        detailsMVVM.mealDetail.observe(
+            this
+        ) { t ->
+            setTextsInViews(t!![0])
+            stopLoading()
+        }
 
-        })
-
-        binding.imgYoutube.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ytUrl)))
+        binding.tvYoutube.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(dtMeal.strYoutube)))
         }
 
 
         binding.btnSave.setOnClickListener {
-            if(isMealSavedInDatabase()){
+            if (isMealSavedInDatabase()) {
                 deleteMeal()
                 binding.btnSave.setImageResource(R.drawable.ic_baseline_save_24)
                 Snackbar.make(
                     findViewById(android.R.id.content),
                     "Meal was deleted",
-                    Snackbar.LENGTH_SHORT).show()
-            }else{
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
                 saveMeal()
                 binding.btnSave.setImageResource(R.drawable.ic_saved)
                 Snackbar.make(
                     findViewById(android.R.id.content),
                     "Meal saved",
-                    Snackbar.LENGTH_SHORT).show()
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
 
     }
 
-
+    private fun assertNotNullIdMeal(): Boolean {
+        return (meal?.idMeal != null)
+    }
 
     private fun deleteMeal() {
-        detailsMVVM.deleteMealById(mealId)
+        if (assertNotNullIdMeal())
+            detailsMVVM.deleteMealById(meal!!.idMeal)
     }
 
     private fun setFloatingButtonStatues() {
-        if(isMealSavedInDatabase()){
+        if (isMealSavedInDatabase()) {
             binding.btnSave.setImageResource(R.drawable.ic_saved)
-        }else{
+        } else {
             binding.btnSave.setImageResource(R.drawable.ic_baseline_save_24)
         }
     }
 
     private fun isMealSavedInDatabase(): Boolean {
-        return detailsMVVM.isMealSavedInDatabase(mealId)
+        if (assertNotNullIdMeal())
+            return detailsMVVM.isMealSavedInDatabase(meal!!.idMeal)
+        return false
     }
 
     private fun saveMeal() {
-        val meal = MealDB(dtMeal.idMeal.toInt(),
+        val meal = MealDB(
+            dtMeal.idMeal.toInt(),
             dtMeal.strMeal,
             dtMeal.strArea,
             dtMeal.strCategory,
             dtMeal.strInstructions,
             dtMeal.strMealThumb,
-            dtMeal.strYoutube)
+            dtMeal.strYoutube
+        )
 
         detailsMVVM.insertMeal(meal)
     }
@@ -113,7 +122,7 @@ class MealDetailesActivity : AppCompatActivity() {
     private fun showLoading() {
         binding.progressBar.visibility = View.VISIBLE
         binding.btnSave.visibility = View.GONE
-        binding.imgYoutube.visibility = View.INVISIBLE
+        binding.tvYoutube.visibility = View.INVISIBLE
     }
 
 
@@ -121,13 +130,12 @@ class MealDetailesActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.INVISIBLE
         binding.btnSave.visibility = View.VISIBLE
 
-        binding.imgYoutube.visibility = View.VISIBLE
+        binding.tvYoutube.visibility = View.VISIBLE
 
     }
 
     private fun setTextsInViews(meal: MealDetail) {
         this.dtMeal = meal
-        ytUrl = meal.strYoutube
         binding.apply {
             tvInstructions.text = "- Instructions : "
             tvContent.text = meal.strInstructions
@@ -135,27 +143,20 @@ class MealDetailesActivity : AppCompatActivity() {
             tvCategoryInfo.visibility = View.VISIBLE
             tvAreaInfo.text = tvAreaInfo.text.toString() + meal.strArea
             tvCategoryInfo.text = tvCategoryInfo.text.toString() + meal.strCategory
-            imgYoutube.visibility = View.VISIBLE
+            tvYoutube.visibility = View.VISIBLE
         }
     }
 
 
     private fun setUpViewWithMealInformation() {
         binding.apply {
-            collapsingToolbar.title = mealStr
+            collapsingToolbar.title = meal?.strMeal
             Glide.with(applicationContext)
-                .load(mealThumb)
+                .load(meal?.strMealThumb)
                 .into(imgMealDetail)
         }
 
     }
 
-    private fun getMealInfoFromIntent() {
-        val tempIntent = intent
-
-        this.mealId = tempIntent.getStringExtra(Const.MEAL_ID)!!
-        this.mealStr = tempIntent.getStringExtra(Const.MEAL_STR)!!
-        this.mealThumb = tempIntent.getStringExtra(Const.MEAL_THUMB)!!
-    }
 
 }

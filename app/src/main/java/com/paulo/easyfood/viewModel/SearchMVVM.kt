@@ -10,11 +10,14 @@ import androidx.lifecycle.ViewModel
 import com.paulo.easyfood.data.dto.MealDetail
 import com.paulo.easyfood.data.dto.RandomMealResponse
 import com.paulo.easyfood.data.retrofit.RetrofitInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class SearchMVVM : ViewModel() {
+@HiltViewModel
+class SearchMVVM @Inject constructor(): ViewModel() {
     private var searchedMealLiveData = MutableLiveData<MealDetail>()
 
 

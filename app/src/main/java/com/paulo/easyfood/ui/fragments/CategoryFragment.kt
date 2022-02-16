@@ -17,19 +17,18 @@ import com.paulo.easyfood.ui.activites.MealActivity
 import com.paulo.easyfood.ui.activites.adapters.CategoriesRecyclerAdapter
 import com.paulo.easyfood.util.Const
 import com.paulo.easyfood.viewModel.CategoryMVVM
+import javax.inject.Inject
+import javax.inject.Named
 
 
 class CategoryFragment : Fragment(R.layout.fragment_category) {
-    private lateinit var binding:FragmentCategoryBinding
-    private lateinit var myAdapter:CategoriesRecyclerAdapter
     private  val categoryMvvm:CategoryMVVM by viewModels()
+    private lateinit var binding:FragmentCategoryBinding
 
+    @Inject
+    @Named("CT_ADAPTER")
+    lateinit  var myAdapter:CategoriesRecyclerAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        myAdapter = CategoriesRecyclerAdapter()
-        //categoryMvvm = ViewModelProviders.of(this)[CategoryMVVM::class.java]
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +57,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun observeCategories() {
-        categoryMvvm.observeCategories().observe(viewLifecycleOwner
+        categoryMvvm.categories.observe(viewLifecycleOwner
         ) { t -> myAdapter.setCategoryList(t!!) }
     }
 

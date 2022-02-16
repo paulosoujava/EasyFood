@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,21 +22,24 @@ import com.paulo.easyfood.util.Const.CATEGORY_NAME
 import com.paulo.easyfood.viewModel.MealActivityMVVM
 
 class MealActivity : AppCompatActivity() {
-    private lateinit var mealActivityMvvm: MealActivityMVVM
+
+    val mealActivityMvvm: MealActivityMVVM by viewModels()
+
     private lateinit var binding: ActivityCategoriesBinding
     private lateinit var myAdapter: MealRecyclerAdapter
     private var categoryNme = ""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mealActivityMvvm = ViewModelProviders.of(this)[MealActivityMVVM::class.java]
 
         startLoading()
         prepareRecyclerView()
         mealActivityMvvm.getMealsByCategory(getCategory())
-        mealActivityMvvm.observeMeal().observe(this
+        mealActivityMvvm.mutableMeal.observe(this
         ) { t ->
             if (t == null) {
                 hideLoading()
@@ -74,7 +78,6 @@ class MealActivity : AppCompatActivity() {
     }
 
     private fun getCategory(): String {
-        val tempIntent = intent
         val x = intent.getStringExtra(CATEGORY_NAME)!!
         categoryNme = x
         return x

@@ -72,8 +72,7 @@
                     android:drawablePadding="5dp"
                     android:text="Category : "
                     android:textColor="@color/g_black"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_areaInfo"
@@ -85,21 +84,37 @@
                     android:drawablePadding="5dp"
                     android:text="Area : "
                     android:textColor="@color/g_black"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_youtube"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/ic_baseline_video_library_24"
+                android:layout_marginBottom="10dp"
+                android:drawablePadding="5dp"
+                android:text="veja o vídeo"
+                android:textColor="@color/g_black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/line"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/meal_info" />
 
             <View
                 android:id="@+id/line"
                 android:layout_width="120dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="25dp"
                 android:layout_marginStart="15dp"
                 android:background="@color/accent"
                 app:layout_constraintBottom_toTopOf="@+id/tv_instructions"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/meal_info" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tv_instructions"
@@ -122,8 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
-                android:textSize="14sp"
                 android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_instructions" />
@@ -132,21 +147,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/img_youtube"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/yt_icon" />
-    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_save"
@@ -157,7 +157,7 @@
         android:clickable="true"
         android:src="@drawable/ic_baseline_save_24"
         app:backgroundTint="@color/accent"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|end"
         app:tint="@color/white" />

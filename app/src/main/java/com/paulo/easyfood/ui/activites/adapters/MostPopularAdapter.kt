@@ -13,6 +13,7 @@ class MostPopularRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Mo
     private var mealsList: List<Meal> = ArrayList()
     private lateinit var onItemClick: OnItemClick
     private lateinit var onLongItemClick:OnLongItemClick
+
     fun setMealList(mealsList: List<Meal>) {
         this.mealsList = mealsList
         notifyDataSetChanged()

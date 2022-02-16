@@ -24,20 +24,19 @@ import com.paulo.easyfood.ui.activites.adapters.FavoriteMealsRecyclerAdapter
 import com.paulo.easyfood.util.Const
 import com.paulo.easyfood.viewModel.DetailsMVVM
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class FavoriteMeals : Fragment() {
     lateinit var recView:RecyclerView
     lateinit var fBinding:FragmentFavoriteMealsBinding
-    private lateinit var myAdapter:FavoriteMealsRecyclerAdapter
 
+    @Inject
+    @Named("FA_ADAPTER")
+    lateinit var myAdapter:FavoriteMealsRecyclerAdapter
     val detailsMVVM: DetailsMVVM by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        myAdapter = FavoriteMealsRecyclerAdapter()
-        //detailsMVVM = ViewModelProviders.of(this)[DetailsMVVM::class.java]
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +55,7 @@ class FavoriteMeals : Fragment() {
         onFavoriteLongMealClick()
         observeBottomDialog()
 
-        detailsMVVM.observeSaveMeal().observe(viewLifecycleOwner
+        detailsMVVM.allMeals.observe(viewLifecycleOwner
         ) { t ->
             myAdapter.setFavoriteMealsList(t!!)
             if (t.isEmpty())
@@ -98,7 +97,7 @@ class FavoriteMeals : Fragment() {
     }
 
     private fun observeBottomDialog() {
-        detailsMVVM.observeMealBottomSheet().observe(viewLifecycleOwner,object : Observer<List<MealDetail>>{
+        detailsMVVM.mealBottomSheet.observe(viewLifecycleOwner,object : Observer<List<MealDetail>>{
             override fun onChanged(t: List<MealDetail>?) {
                 val bottomDialog = MealBottomDialog()
                 val b = Bundle()

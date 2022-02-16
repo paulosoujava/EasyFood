@@ -16,7 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryMVVM @Inject constructor(): ViewModel() {
-    private var categories: MutableLiveData<List<Category>> = MutableLiveData<List<Category>>()
+    private var _categories: MutableLiveData<List<Category>> = MutableLiveData<List<Category>>()
+    var categories = _categories
+
 
     init {
         getCategories()
@@ -25,7 +27,7 @@ class CategoryMVVM @Inject constructor(): ViewModel() {
     private fun getCategories(){
         RetrofitInstance.foodApi.getCategories().enqueue(object : Callback<CategoryResponse>{
             override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
-                categories.value = response.body()!!.categories
+                _categories.value = response.body()!!.categories
             }
 
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
@@ -35,7 +37,4 @@ class CategoryMVVM @Inject constructor(): ViewModel() {
         })
     }
 
-    fun observeCategories():LiveData<List<Category>>{
-        return categories
-    }
 }

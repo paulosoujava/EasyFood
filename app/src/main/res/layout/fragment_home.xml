@@ -88,6 +88,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/random_meal"
+                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginStart="25dp"

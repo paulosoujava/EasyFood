@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -15,21 +16,24 @@ import com.paulo.easyfood.ui.activites.MealDetailesActivity
 import com.paulo.easyfood.ui.activites.adapters.MealRecyclerAdapter
 import com.paulo.easyfood.util.Const
 import com.paulo.easyfood.viewModel.SearchMVVM
+import javax.inject.Inject
+import javax.inject.Named
 
 
 class SearchFragment : Fragment() {
-    private lateinit var myAdapter: MealRecyclerAdapter
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var searchMvvm: SearchMVVM
     private var mealId = ""
     private var mealStr = ""
     private var mealThub = ""
 
+   private val searchMvvm: SearchMVVM by viewModels()
+
+    @Inject
+    @Named("SR_ADAPTER")
+    lateinit var myAdapter: MealRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        myAdapter = MealRecyclerAdapter()
-        searchMvvm = ViewModelProviders.of(this)[SearchMVVM::class.java]
     }
 
     override fun onCreateView(
@@ -82,7 +86,7 @@ class SearchFragment : Fragment() {
                         mealStr = t.strMeal
                         mealThub = t.strMealThumb
 
-                        Glide.with(context!!.applicationContext)
+                        Glide.with(requireContext().applicationContext)
                             .load(t.strMealThumb)
                             .into(imgSearchedMeal)
 

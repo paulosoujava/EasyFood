@@ -8,6 +8,7 @@ import com.paulo.easyfood.data.db.Repository
 import com.paulo.easyfood.data.dto.MealDB
 import com.paulo.easyfood.data.dto.MealDetail
 import com.paulo.easyfood.data.dto.RandomMealResponse
+import com.paulo.easyfood.data.retrofit.FoodApi
 import com.paulo.easyfood.data.retrofit.RetrofitInstance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,24 +23,18 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsMVVM @Inject constructor(
     application: Application,
-    private val repository: Repository
+    private val repository: Repository,
+    private val foodApi: FoodApi
 ) : AndroidViewModel(application) {
 
-    private val mutableMealDetail = MutableLiveData<List<MealDetail>>()
-    private val mutableMealBottomSheet = MutableLiveData<List<MealDetail>>()
-    private  var allMeals: LiveData<List<MealDB>>
-    //private  var repository: Repository
+    private val _mutableMealDetail = MutableLiveData<List<MealDetail>>()
+    private val _mutableMealBottomSheet = MutableLiveData<List<MealDetail>>()
+    private var _allMeals: LiveData<List<MealDB>> = repository.mealList
 
-    init {
-        val mealDao = MealsDatabase.getInstance(application).dao()
-       // repository = Repository(mealDao)
-        allMeals = repository.mealList
-    }
-
-    fun getAllSavedMeals() {
-        viewModelScope.launch(Dispatchers.Main) {
-        }
-    }
+    //PUBLICS
+    var mealDetail = _mutableMealDetail
+    var mealBottomSheet = _mutableMealBottomSheet
+    var allMeals = _allMeals
 
     fun insertMeal(meal: MealDB) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -49,14 +44,17 @@ class DetailsMVVM @Inject constructor(
         }
     }
 
-    fun deleteMeal(meal:MealDB) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteMeal(meal: MealDB) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteMeal(meal)
     }
 
     fun getMealById(id: String) {
-        RetrofitInstance.foodApi.getMealById(id).enqueue(object : Callback<RandomMealResponse> {
-            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
-                mutableMealDetail.value = response.body()!!.meals
+        foodApi.getMealById(id).enqueue(object : Callback<RandomMealResponse> {
+            override fun onResponse(
+                call: Call<RandomMealResponse>,
+                response: Response<RandomMealResponse>
+            ) {
+                _mutableMealDetail.value = response.body()!!.meals
             }
 
             override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
@@ -77,16 +75,19 @@ class DetailsMVVM @Inject constructor(
 
     }
 
-    fun deleteMealById(mealId:String){
+    fun deleteMealById(mealId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteMealById(mealId)
         }
     }
 
     fun getMealByIdBottomSheet(id: String) {
-        RetrofitInstance.foodApi.getMealById(id).enqueue(object : Callback<RandomMealResponse> {
-            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
-                mutableMealBottomSheet.value = response.body()!!.meals
+        foodApi.getMealById(id).enqueue(object : Callback<RandomMealResponse> {
+            override fun onResponse(
+                call: Call<RandomMealResponse>,
+                response: Response<RandomMealResponse>
+            ) {
+                _mutableMealBottomSheet.value = response.body()!!.meals
             }
 
             override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
@@ -96,15 +97,5 @@ class DetailsMVVM @Inject constructor(
         })
     }
 
-    fun observeMealDetail(): LiveData<List<MealDetail>> {
-        return mutableMealDetail
-    }
 
-    fun observeMealBottomSheet(): LiveData<List<MealDetail>> {
-        return mutableMealBottomSheet
-    }
-
-    fun observeSaveMeal(): LiveData<List<MealDB>> {
-        return allMeals
-    }
 }

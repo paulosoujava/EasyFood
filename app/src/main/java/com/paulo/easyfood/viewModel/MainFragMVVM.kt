@@ -5,17 +5,26 @@ import androidx.lifecycle.*
 import com.paulo.easyfood.data.dto.CategoryResponse
 import com.paulo.easyfood.data.dto.MealsResponse
 import com.paulo.easyfood.data.dto.RandomMealResponse
+import com.paulo.easyfood.data.retrofit.FoodApi
 import com.paulo.easyfood.data.retrofit.RetrofitInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 const val TAG = "MainMVVM"
 
-class MainFragMVVM: ViewModel() {
-    private val mutableCategory = MutableLiveData<CategoryResponse>()
-    private val mutableRandomMeal = MutableLiveData<RandomMealResponse>()
-    private val mutableMealsByCategory = MutableLiveData<MealsResponse>()
+@HiltViewModel
+class MainFragMVVM @Inject constructor(
+    val fooApi: FoodApi
+): ViewModel() {
+    private val _mutableCategory = MutableLiveData<CategoryResponse>()
+    var mCategory = _mutableCategory
+    private val _mutableRandomMeal = MutableLiveData<RandomMealResponse>()
+    var mRandomMeal = _mutableRandomMeal
+    private val _mutableMealsByCategory = MutableLiveData<MealsResponse>()
+    var mMealsByCategory = _mutableMealsByCategory
 
 
     init {
@@ -26,9 +35,9 @@ class MainFragMVVM: ViewModel() {
 
 
     private fun getAllCategories() {
-        RetrofitInstance.foodApi.getCategories().enqueue(object : Callback<CategoryResponse> {
+        fooApi.getCategories().enqueue(object : Callback<CategoryResponse> {
             override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
-                mutableCategory.value = response.body()
+                _mutableCategory.value = response.body()
             }
 
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
@@ -38,9 +47,9 @@ class MainFragMVVM: ViewModel() {
     }
 
     private fun getRandomMeal() {
-        RetrofitInstance.foodApi.getRandomMeal().enqueue(object : Callback<RandomMealResponse> {
+        fooApi.getRandomMeal().enqueue(object : Callback<RandomMealResponse> {
             override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
-                mutableRandomMeal.value = response.body()
+                _mutableRandomMeal.value = response.body()
             }
 
             override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
@@ -51,12 +60,10 @@ class MainFragMVVM: ViewModel() {
     }
 
     private fun getMealsByCategory(category:String) {
-
-        RetrofitInstance.foodApi.getMealsByCategory(category).enqueue(object : Callback<MealsResponse> {
+        fooApi.getMealsByCategory(category).enqueue(object : Callback<MealsResponse> {
             override fun onResponse(call: Call<MealsResponse>, response: Response<MealsResponse>) {
-                mutableMealsByCategory.value = response.body()
+                _mutableMealsByCategory.value = response.body()
             }
-
             override fun onFailure(call: Call<MealsResponse>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
             }
@@ -64,16 +71,5 @@ class MainFragMVVM: ViewModel() {
         })
     }
 
-    fun observeMealByCategory(): LiveData<MealsResponse> {
-        return mutableMealsByCategory
-    }
-
-    fun observeRandomMeal(): LiveData<RandomMealResponse> {
-        return mutableRandomMeal
-    }
-
-    fun observeCategories(): LiveData<CategoryResponse> {
-        return mutableCategory
-    }
 
 }

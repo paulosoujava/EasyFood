@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -38,13 +39,11 @@ dependencies {
     implementation(DaggerHilt.hiltAndroid)
     kapt(DaggerHilt.hiltCompiler)
 
-
     implementation(Google.core)
     implementation(Google.appcompat)
     implementation(Google.material)
     implementation(Google.constraintlayout)
     implementation(Google.legacy)
-
 
     implementation(Gif.gifAndroid)
 
@@ -63,9 +62,4 @@ dependencies {
     kapt(Room.roomCompiler)
     implementation(Room.roomKtx)
     implementation(Room.roomRuntime)
-
-
-    implementation(DaggerHilt.hiltAndroid)
-    kapt(DaggerHilt.hiltCompiler)
-
 }

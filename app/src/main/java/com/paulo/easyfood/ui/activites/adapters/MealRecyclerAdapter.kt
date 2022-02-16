@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.paulo.easyfood.data.dto.Meal
 import com.paulo.easyfood.databinding.CategoryCardBinding
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MealRecyclerAdapter : RecyclerView.Adapter<MealRecyclerAdapter.MealViewHolder>() {
+class MealRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<MealRecyclerAdapter.MealViewHolder>() {
 
     private var mealList: List<Meal> = ArrayList()
     private lateinit var setOnMealClickListener: SetOnMealClickListener

@@ -35,7 +35,9 @@ import javax.inject.Named
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var randomMealId = ""
-   val detailMvvm: DetailsMVVM by viewModels()
+
+    val detailMvvm: DetailsMVVM by viewModels()
+    val mainFragMVVM: MainFragMVVM by viewModels()
 
     lateinit var meal: RandomMealResponse
     lateinit var binding: FragmentHomeBinding
@@ -43,12 +45,12 @@ class HomeFragment : Fragment() {
     @Inject
     @Named("CT_ADAPTER")
     lateinit var myAdapter: CategoriesRecyclerAdapter
-    @Inject lateinit var mostPopularFoodAdapter: MostPopularRecyclerAdapter
+    @Inject
+    lateinit var mostPopularFoodAdapter: MostPopularRecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // detailMvvm = ViewModelProviders.of(this)[DetailsMVVM::class.java]
         binding = FragmentHomeBinding.inflate(layoutInflater)
     }
 
@@ -62,7 +64,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mainFragMVVM = ViewModelProviders.of(this)[MainFragMVVM::class.java]
         showLoadingCase()
 
 
@@ -72,20 +73,23 @@ class HomeFragment : Fragment() {
         onRandomLongClick()
 
 
-        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner
+        mainFragMVVM.mMealsByCategory.observe(
+            viewLifecycleOwner
         ) { t ->
             val meals = t!!.meals
             setMealsByCategoryAdapter(meals)
             cancelLoadingCase()
         }
 
-        mainFragMVVM.observeCategories().observe(viewLifecycleOwner
+        mainFragMVVM.mCategory.observe(
+            viewLifecycleOwner
         ) { t ->
             val categories = t!!.categories
             setCategoryAdapter(categories)
         }
 
-        mainFragMVVM.observeRandomMeal().observe(viewLifecycleOwner
+        mainFragMVVM.mRandomMeal.observe(
+            viewLifecycleOwner
         ) { t ->
             val mealImage = view.findViewById<ImageView>(R.id.img_random_meal)
             val imageUrl = t!!.meals[0].strMealThumb
@@ -99,9 +103,7 @@ class HomeFragment : Fragment() {
         mostPopularFoodAdapter.setOnClickListener(object : OnItemClick {
             override fun onItemClick(meal: Meal) {
                 val intent = Intent(activity, MealDetailesActivity::class.java)
-                intent.putExtra(Const.MEAL_ID, meal.idMeal)
-                intent.putExtra(Const.MEAL_STR, meal.strMeal)
-                intent.putExtra(Const.MEAL_THUMB, meal.strMealThumb)
+                intent.putExtra(Meal.MEAL_KEY, meal)
                 startActivity(intent)
             }
 
@@ -123,8 +125,9 @@ class HomeFragment : Fragment() {
 
         })
 
-        detailMvvm.observeMealBottomSheet()
-            .observe(viewLifecycleOwner
+        detailMvvm.mealBottomSheet
+            .observe(
+                viewLifecycleOwner
             ) { t ->
                 val bottomSheetFragment = MealBottomDialog()
                 val b = Bundle()

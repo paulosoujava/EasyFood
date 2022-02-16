@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide
 import com.paulo.easyfood.data.dto.Category
 import com.paulo.easyfood.databinding.CategoryCardBinding
 
+import javax.inject.Inject
 
-class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {
+
+class CategoriesRecyclerAdapter @Inject constructor(): RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {
     private var categoryList:List<Category> = ArrayList()
     private lateinit var onItemClick: OnItemCategoryClicked
     private lateinit var onLongCategoryClick:OnLongCategoryClick
@@ -21,8 +23,6 @@ class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter
     fun setOnLongCategoryClick(onLongCategoryClick:OnLongCategoryClick){
         this.onLongCategoryClick = onLongCategoryClick
     }
-
-
 
     fun onItemClicked(onItemClick: OnItemCategoryClicked){
         this.onItemClick = onItemClick

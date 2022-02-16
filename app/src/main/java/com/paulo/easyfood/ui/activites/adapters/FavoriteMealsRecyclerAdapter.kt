@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide
 import com.paulo.easyfood.R
 import com.paulo.easyfood.data.dto.MealDB
 import com.paulo.easyfood.databinding.CategoryCardBinding
+import javax.inject.Inject
 
-class FavoriteMealsRecyclerAdapter :
+
+class FavoriteMealsRecyclerAdapter @Inject constructor() :
     RecyclerView.Adapter<FavoriteMealsRecyclerAdapter.FavoriteViewHolder>() {
     private var favoriteMeals: List<MealDB> = ArrayList()
     private lateinit var onFavoriteClickListener: OnFavoriteClickListener
