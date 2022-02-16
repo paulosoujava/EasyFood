@@ -26,16 +26,17 @@
 
         <TextView
             android:id="@+id/tvCategoryName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="-10dp"
             android:fontFamily="@font/myfont"
             android:text="fast food"
+            android:paddingStart="4dp"
             android:ellipsize="end"
             android:lines="1"
+            android:background="@color/accent"
             android:maxLength="11"
-            android:textColor="#232323"
+            android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

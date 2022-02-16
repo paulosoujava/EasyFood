@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.activites.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/accent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_fav_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/accent"
-        android:text="No Favorites... "
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
-        android:id="@+id/tv_home"
+    <LinearLayout
+        android:layout_margin="1dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/myfont"
-        android:text="Favoritos"
-        android:layout_marginEnd="10dp"
-        android:drawableEnd="@drawable/favorites"
-        android:gravity="start"
-        android:paddingStart="10dp"
-        android:textColor="@color/accent"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/line"
-        android:layout_width="120dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="10dp"
-        android:background="@color/accent"
-        app:layout_constraintStart_toStartOf="@+id/tv_home"
-        app:layout_constraintTop_toBottomOf="@+id/tv_home" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fav_rec_view"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line" />
+            <TextView
+                android:id="@+id/tv_fav_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Favorites... "
+                android:textColor="@color/accent"
+                android:textSize="20sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:drawableEnd="@drawable/favorites"
+                android:fontFamily="@font/myfont"
+                android:gravity="start"
+                android:paddingStart="10dp"
+                android:text="Favoritos"
+                android:textColor="@color/accent"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                android:id="@+id/line"
+                android:layout_width="120dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/accent"
+                app:layout_constraintStart_toStartOf="@+id/tv_home"
+                app:layout_constraintTop_toBottomOf="@+id/tv_home" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fav_rec_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>
